@@ -1,2 +1,2 @@
 # SurvSampl
-Two phase sampling and gives performance of different design, plot of power and sample size 
+Two phase sampling and performance of different design, plot of power and sample size 
