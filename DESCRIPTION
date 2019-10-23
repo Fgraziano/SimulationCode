@@ -1,0 +1,10 @@
+Package: SurvSampl
+Type: Package
+Title: Sampling Function
+Version: 0.1
+Author: Francesca Graziano <francesca.graziano@unimib.it>
+Maintainer: Francesca Graziano <francesca.graziano@unimib.it>
+Description: usefull functions
+License: GPL-2
+Encoding: UTF-8
+Depends: survey, Epi, multipleNCC
