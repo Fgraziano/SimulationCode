@@ -1,8 +1,8 @@
 # Filename: NSimulation.R
-# Authors: Francesca Graziano
+# Authors: Francesca Graziano & Paola Rebora
 # All rights reserved
 
-# Calculate n. of Simulation 
+# Calculate number of simulation needed
 #
 #  @param acc A character indicating the level of accuracy of the estimate of interest
 #  @param var A character indicating the variance for the parameter of interest
