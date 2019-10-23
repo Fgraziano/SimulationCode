@@ -1,10 +1,13 @@
-#' Calculate n. of Simulation 
-#'
-#' @param acc A character indicating the level of accuracy of the estimate of interest
-#' @param var A character indicating the variance for the parameter of interest
-#' @param alpha A character indicating significance level (default is 0.05)
-#' @param digits Rounding of Numbers (default is 0)
-#' @return Returns a number containing the minimum number of simulation
+# Filename: NSimulation.R
+# All rights reserved.
+
+# Calculate n. of Simulation 
+#
+# acc A character indicating the level of accuracy of the estimate of interest
+# var A character indicating the variance for the parameter of interest
+# alpha A character indicating significance level (default is 0.05)
+# digits Rounding of Numbers (default is 0)
+#  Returns a number containing the minimum number of simulation.
 
 Nsimulation <- function(acc,var,alpha=0.05, digits=0) {
   z<-qnorm(1-alpha/2)
