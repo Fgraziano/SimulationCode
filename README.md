@@ -1,2 +1,2 @@
-# SurvSampl
-Two phase sampling and performance of different design, plot of power and sample size 
+# Ssimulation code
+Simulation code for the two phase sampling
