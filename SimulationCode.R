@@ -4,7 +4,7 @@
 
 #  @param lambda scale parameter
 #  @param k shape parameter
-#  @param beta list of beta coefficents 
+#  @param beta list of beta coefficients 
 #  @param X matrix of beta values
 #  @param rate rate of censoring
 #  @param follow follow-up 
