@@ -1,10 +1,10 @@
-Package: SurvSampl
-Type: Package
-Title: Sampling Function
+Script: SimulationCode.R
+Type: Script for simulation
+Title: Sampling strategies to evaluate the prognostic value of a new biomarker on a time-to-event end-point
 Version: 0.1
-Author: Francesca Graziano <francesca.graziano@unimib.it>
+Author: Francesca Graziano, Maria Grazia Valsecchi, Paola Rebora
 Maintainer: Francesca Graziano <francesca.graziano@unimib.it>
-Description: usefull functions
+Description: Code used during the simulation 
 License: GPL-2
 Encoding: UTF-8
 Depends: survey, Epi, multipleNCC
