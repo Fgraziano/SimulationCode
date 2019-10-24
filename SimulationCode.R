@@ -1,5 +1,5 @@
 # Filename: SimulationCode.R
-# Author: Francesca Graziano & Paola Rebora
+# Authors: Francesca Graziano, Valsecchi Maria Grazia, Paola Rebora
 # Article: Sampling strategies to evaluate the prognostic value of a new biomarker on a time-to-event end-point
 
 #  @param lambda scale parameter
