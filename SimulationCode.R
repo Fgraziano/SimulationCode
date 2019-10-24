@@ -7,11 +7,9 @@
 #  @param beta list of beta coefficents 
 #  @param X matrix of beta values
 #  @param rate rate of censoring
-#  @param B number of simulation
+#  @param follow follow-up 
 #  @param N sample size of full cohort
 #  @param n sample size of two-phase
-#  @param B number of simultion
-#  @param follow follow-up 
 #  @param ssed = Random Number Generation
 #  Returns list of B results in each different sampling design   
 
