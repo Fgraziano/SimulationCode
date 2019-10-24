@@ -63,8 +63,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     colnames(Full_Cohort)<-c("sample", "n", "p_x1", "surv_x0", "surv_x1", "coef", "exp coef", "se.coef", "z", "pvalue", "lower95HR", "upper95HR","BConf","seConf","DEFF", "sens", "spec")
     
     ############TYPE OF SAMPLING: ################### 
-    #1. SRS: Ogni campione ha la stessa probabilità di essere estratto
-    
+    #1. SRS    
     ev=0
     idsampled<-sample(dati$id, n, replace = FALSE, prob = NULL) ;   
     campione<-dati[dati$id %in% idsampled,]  # CAMPIONE SELEZIONATO
@@ -98,7 +97,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     Rsimple<-rbind(Rsimple,c(sample=i,round(length(DATse$x1),1),pX, surv.prob, sample.est,DEFF, SENS, SPEC) )
     colnames(Rsimple)<-c("sample", "n", "p_x1", "survx0", "survx1", "coef", "exp coef", "se.coef", "z", "pvalue", "lower95HR", "upper95HR","BConf","seConf","DEFF", "sens","spec")
     
-    #######2. CASO-CONTROLLO - CC
+    #######2. CASe-CONTROL - CC
     
     cases<-NULL;cntl<-NULL #length(dati$id[dati$cens==1])
     if(length(dati$id[dati$cens==1])>=n/2){
@@ -126,7 +125,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     
     pX<-length(DATse$x1[DATse$x1=="1"])/length(DATse$x1)
 
-    ##2.1 CC EVENTO
+    ##2.1 CC EVENT
     des<-twophase(id=list(~id,~id),subset=~incl==1,strata=list(NULL,~cens),data=dati)
     
     Fit<-svycoxph(Surv(time,cens)~x1 + x4, des)
@@ -141,7 +140,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     CC_ev<-rbind(CC_ev,c(sample=i,length(DATse$x1),pX, surv.prob, sample.est,DEFF, SENS, SPEC))
     colnames(CC_ev)<-c("sample", "n", "p_x1", "surv_x0", "surv_x1", "coef", "exp coef", "se.coef", "z", "pvalue", "lower95HR", "upper95HR","BConf","seConf", "DEFF", "sens","spec")
     
-    ####2.2 CC - Evento Post stratified Elfin 
+    ####2.2 CC - Evento Post stratified Risk factor
     des<-twophase(id=list(~id,~id),subset=~incl==1,strata=list(NULL,~interaction(x2, cens)),data=dati)
     
     Fit<-svycoxph(Surv(time,cens)~x1 + x4, des)
@@ -189,7 +188,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     colnames(CC_intEV_surr)<-c("sample", "n", "p_x1", "surv_x0", "surv_x1", "coef", "exp coef", "se.coef", "z", "pvalue", "lower95HR", "upper95HR","BConf","seConf","DEFF", "sens","spec")
     
     
-    ##2.5 CC - Evento stra_elfin
+    ##2.5 CC - Evento stra risk factor
     cases0<-NULL;cntl0<-NULL; cases1<-NULL;cntl1<-NULL #length(dati$id[dati$cens==1])
   
     
@@ -238,7 +237,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     CC_stra_elfin<-rbind(CC_stra_elfin,c(sample=i,length(DATse$x1),pX, surv.prob, sample.est,DEFF, SENS, SPEC))
     colnames(CC_stra_elfin)<-c("sample", "n", "p_x1", "surv_x0", "surv_x1", "coef", "exp coef", "se.coef", "z", "pvalue", "lower95HR", "upper95HR","BConf","seConf", "DEFF", "sens","spec")
     
-    ##2.6 CC - Evento stra_conf
+    ##2.6 CC - Evento stra confounder
     cases0<-NULL;cntl0<-NULL; cases1<-NULL;cntl1<-NULL #length(dati$id[dati$cens==1])
     
     if(length(dati$id[dati$cens==1 & dati$x4==0])>=n/4){
@@ -294,9 +293,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     if(length(dati$id[!dati$cens==1 & dati$x3==1])>=n/4){
     cntl1<-sample(dati$id[!dati$cens==1 & dati$x3==1], n/4 , replace = FALSE, prob = NULL)}
     if(length(dati$id[!dati$cens==1 & dati$x3==1])<n/4) cntl1<-dati$id[!dati$cens==1 & dati$x3==1]
-    #modificato con le linee sopra
-    #cntl1<-sample(dati$id[!dati$cens==1 & dati$x3==1], n/4 , replace = FALSE, prob = NULL)
-    
+ 
     idsampled<-c(cases0,cases1,cntl0,cntl1); length(idsampled)
     
     campione<-dati[dati$id %in% idsampled,]  #save selected ids 
@@ -367,7 +364,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     PPS_EVe<-rbind( PPS_EVe,c(sample=i,length(DATse$x1),pX, surv.prob, sample.est, DEFF, SENS, SPEC) )
     colnames(PPS_EVe)<-c("sample", "n", "p_x1", "surv_x0", "surv_x1", "coef", "exp coef", "se.coef", "z", "pvalue", "lower95HR", "upper95HR","BConf","seConf", "DEFF", "sens","spec")
     
-    #####4. probability proportional to size (PPS) for 4 strata - ELFIN
+    #####4. probability proportional to size (PPS) for 4 strata - risk factor
     cases0<-NULL; cases1<-NULL; cntl0<- NULL ; cntl1<-NULL
     
     T1<-table(dati$cens,dati$x2); #str(T1)
@@ -377,7 +374,6 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     cntl1<-sample(dati$id[!dati$cens==1 & dati$x2==1],T1[1,2]*n/N , replace = FALSE, prob = NULL)
     
     idsampled<-c(cases0,cases1,cntl0,cntl1)
-    #campione<-dati[dati$id %in% idsampled,]  # CAMPIONE SELEZIONATO
     dati$incl<-ifelse(dati$id %in% idsampled,1,0); #table(dati$incl)
     
     des<-twophase(id=list(~id,~id),subset=~incl==1,strata=list(NULL,~interaction(x2, cens)), data=dati)
@@ -389,7 +385,6 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
                   Summ$coefficients[2,c(1,3)])
     
     DATse<-dati[dati$incl==1,]
-    #fit <- survfit(Surv(time=time,event=cens)~x1, DATse)
     surv.prob <- summary(survfit(Surv(time=time,event=cens)~x1, DATse),time=2)$surv; 
     if (length(surv.prob)==0) {
       surv.prob<-c(NA,NA) }
@@ -429,7 +424,6 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
                   Summ$coefficients[2,c(1,3)])
     
     DATse<-dati[dati$incl==1,]
-    #fit <- survfit(Surv(time=time,event=cens)~x1, DATse)
     surv.prob <- summary(survfit(Surv(time=time,event=cens)~x1, DATse),time=2,extend=TRUE)$surv; 
     if (length(surv.prob)==0) {
       surv.prob<-c(NA,NA) }
@@ -488,7 +482,7 @@ simul<-function(lambda, k,  beta,X, rate,follow,N,n,B,ssed){
     colnames( PPS_EVconf)<-c("sample", "n", "p_x1", "surv_x0", "surv_x1", "coef", "exp coef", "se.coef", "z", "pvalue", "lower95HR", "upper95HR","BConf","seConf", "DEFF", "sens","spec")
     
     #########################################################################################################
-    ######7. CASO - CONTROLLO CON INclUSIONE DI TUTTI I CASI 
+    ######7. CASO - CONTROLLO - ALL events
   
     cases<-NULL; cntl<-NULL
     cases<-dati$id[dati$cens==1]
